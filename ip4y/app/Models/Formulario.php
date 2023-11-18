@@ -10,6 +10,6 @@ class Formulario extends Model
     
     protected $table = 'formulario';
     protected $primaryKey = 'id';
-    protected $fillable = ['name', 'sobrenome', 'nascimento', 'email','genero', 'cpf' ];
+    protected $fillable = ['nome', 'sobrenome', 'nascimento', 'email','genero', 'cpf' ];
     use HasFactory;
 }

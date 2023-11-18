@@ -4,28 +4,33 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Formulario;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class FormularioController extends Controller
 {
     protected $formulario;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->formulario = new Formulario();
     }
 
+      protected $messages = [
+        'nome.required' => 'O campo nome é obrigatório.',
+        'sobrenome.required' => 'O campo sobrenome é obrigatório.',
+        'cpf.required' => 'O campo CPF é obrigatório.',
+        'cpf.numeric' => 'O campo CPF deve conter apenas números.',
+        'cpf.unique' => 'Este CPF já está cadastrado.',
+        'nascimento.required' => 'O campo de data de nascimento é obrigatório.',
+        'nascimento.date' => 'O campo de data de nascimento deve ser uma data válida.',
+        'email.required' => 'O campo e-mail é obrigatório.',
+        'email.email' => 'O campo e-mail deve ser um endereço de e-mail válido.',
+    ];
+
     public function index()
     {
-        
-    
         return $this->formulario->all();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -33,6 +38,28 @@ class FormularioController extends Controller
      */
     public function store(Request $request)
     {
+            $validator = Validator::make($request->all(), [
+            'nome' => 'required',
+            'sobrenome' => 'required',
+            'cpf' => [
+                'required',
+                'numeric',
+            
+                Rule::unique('formulario'), 
+           
+            ],
+            'nascimento' => 'required|date', // Corrigido para corresponder ao nome real do campo
+            'email' => 'required|email',
+        ], $this->messages); // Passando o array de mensagens personalizadas
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+         $existingEmail = Formulario::where('email', $request->input('email'))->first();
+    if ($existingEmail) {
+        return response()->json(['errors' => ['email' => 'Este e-mail já está cadastrado.']], 422);
+    }
+
         return $this->formulario->create($request->all());
     }
 
@@ -41,7 +68,7 @@ class FormularioController extends Controller
      */
     public function show(string $id)
     {
-       return $formulario =$this->formulario->find($id);
+        return $this->formulario->find($id);
     }
 
     /**
@@ -57,11 +84,10 @@ class FormularioController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
         $formulario = Formulario::find($id);
         $input = $request->all();
         $formulario->update($input);
-        return $formulario;  
+        return $formulario;
     }
 
     /**
@@ -69,7 +95,7 @@ class FormularioController extends Controller
      */
     public function destroy(string $id)
     {
-        $formulario =$this->formulario->find($id);
+        $formulario = $this->formulario->find($id);
         return $formulario->delete();
     }
 }

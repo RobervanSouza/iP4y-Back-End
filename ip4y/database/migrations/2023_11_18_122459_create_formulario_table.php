@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('formulario', function (Blueprint $table) {
-            $table->id();
-            $table->string("name");
-            $table->string("sobrenome");
-            $table->string("nascimento");
-            $table->string("email");
-            $table->string("genero");
-            $table->string("cpf");
+               $table->id();
+            $table->string("nome")->required();
+            $table->string("sobrenome")->required();
+            $table->date("nascimento")->required(); // Alteração aqui para definir nascimento como uma coluna de data
+            $table->string("email")->unique()->required(); // Adicionando unique para garantir que os e-mails sejam exclusivos
+            $table->string("genero")->required();
+            $table->bigInteger("cpf")->unsigned()->unique()->required(); // Adicionando unique para garantir que os CPFs sejam exclusivos
             $table->timestamps();
         });
     }
