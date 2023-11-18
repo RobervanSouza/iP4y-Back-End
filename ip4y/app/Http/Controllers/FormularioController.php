@@ -84,7 +84,7 @@ class FormularioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-   public function update(Request $request, string $id)
+public function update(Request $request, string $id)
 {
     $formulario = Formulario::find($id);
 
@@ -92,11 +92,36 @@ class FormularioController extends Controller
         return response()->json(['errors' => ['message' => 'Registro não encontrado.']], 404);
     }
 
+    // Verifica se o CPF fornecido já existe em outro registro
+    $existingCpf = Formulario::where('cpf', $request->input('cpf'))->where('id', '<>', $id)->first();
+    if ($existingCpf) {
+        return response()->json(['errors' => ['cpf' => 'Este CPF já está cadastrado.']], 422);
+    }
+    
+     $existingEmail = Formulario::where('email', $request->input('email'))->where('id', '<>', $id)->first();
+    if ($existingEmail) {
+        return response()->json(['errors' => ['email' => 'Este e-mail já está cadastrado.']], 422);
+    }
+
+    // Realiza a validação, incluindo a regra de CPF
+    $validator = Validator::make($request->all(), [
+        'cpf' => [
+            'required',
+            new Cpf(),
+        ],
+        // Adicione outras regras de validação conforme necessário
+    ], $this->messages);
+
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 422);
+    }
+
     $input = $request->all();
     $formulario->update($input);
 
     return $formulario;
 }
+
 
 
     /**
