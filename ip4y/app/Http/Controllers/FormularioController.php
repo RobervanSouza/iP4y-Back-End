@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Formulario;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use LaravelLegends\PtBrValidator\Rules\Cpf;
+
+
+
 
 class FormularioController extends Controller
 {
@@ -16,12 +20,12 @@ class FormularioController extends Controller
         $this->formulario = new Formulario();
     }
 
-      protected $messages = [
+     protected $messages = [
         'nome.required' => 'O campo nome é obrigatório.',
         'sobrenome.required' => 'O campo sobrenome é obrigatório.',
         'cpf.required' => 'O campo CPF é obrigatório.',
-        'cpf.numeric' => 'O campo CPF deve conter apenas números.',
         'cpf.unique' => 'Este CPF já está cadastrado.',
+        'cpf.formato_cpf' => 'O campo CPF não possui o formato válido de CPF.',
         'nascimento.required' => 'O campo de data de nascimento é obrigatório.',
         'nascimento.date' => 'O campo de data de nascimento deve ser uma data válida.',
         'email.required' => 'O campo e-mail é obrigatório.',
@@ -43,11 +47,9 @@ class FormularioController extends Controller
             'sobrenome' => 'required',
             'cpf' => [
                 'required',
-                'numeric',
-            
-                Rule::unique('formulario'), 
-           
-            ],
+               new Cpf(),
+        Rule::unique('formulario'),
+    ],
             'nascimento' => 'required|date', // Corrigido para corresponder ao nome real do campo
             'email' => 'required|email',
         ], $this->messages); // Passando o array de mensagens personalizadas
@@ -82,13 +84,20 @@ class FormularioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        $formulario = Formulario::find($id);
-        $input = $request->all();
-        $formulario->update($input);
-        return $formulario;
+   public function update(Request $request, string $id)
+{
+    $formulario = Formulario::find($id);
+
+    if (!$formulario) {
+        return response()->json(['errors' => ['message' => 'Registro não encontrado.']], 404);
     }
+
+    $input = $request->all();
+    $formulario->update($input);
+
+    return $formulario;
+}
+
 
     /**
      * Remove the specified resource from storage.

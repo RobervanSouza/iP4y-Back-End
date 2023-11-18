@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date("nascimento")->required(); // Alteração aqui para definir nascimento como uma coluna de data
             $table->string("email")->unique()->required(); // Adicionando unique para garantir que os e-mails sejam exclusivos
             $table->string("genero")->required();
-            $table->bigInteger("cpf")->unsigned()->unique()->required(); // Adicionando unique para garantir que os CPFs sejam exclusivos
+            $table->string("cpf", 14)->unique()->required();// Adicionando unique para garantir que os CPFs sejam exclusivos
             $table->timestamps();
         });
     }
