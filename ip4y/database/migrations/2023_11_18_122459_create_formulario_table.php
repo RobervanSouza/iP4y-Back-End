@@ -15,10 +15,10 @@ return new class extends Migration
                $table->id();
             $table->string("nome")->required();
             $table->string("sobrenome")->required();
-            $table->date("nascimento")->required(); // Alteração aqui para definir nascimento como uma coluna de data
-            $table->string("email")->unique()->required(); // Adicionando unique para garantir que os e-mails sejam exclusivos
+            $table->date("nascimento")->required(); 
+            $table->string("email")->unique()->required();
             $table->string("genero")->required();
-            $table->string("cpf", 14)->unique()->required();// Adicionando unique para garantir que os CPFs sejam exclusivos
+            $table->string("cpf", 14)->unique()->required();
             $table->timestamps();
         });
     }

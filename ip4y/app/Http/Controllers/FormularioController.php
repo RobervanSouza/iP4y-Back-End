@@ -50,9 +50,9 @@ class FormularioController extends Controller
                new Cpf(),
         Rule::unique('formulario'),
     ],
-            'nascimento' => 'required|date', // Corrigido para corresponder ao nome real do campo
+            'nascimento' => 'required|date', 
             'email' => 'required|email',
-        ], $this->messages); // Passando o array de mensagens personalizadas
+        ], $this->messages); 
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
@@ -92,7 +92,7 @@ public function update(Request $request, string $id)
         return response()->json(['errors' => ['message' => 'Registro não encontrado.']], 404);
     }
 
-    // Verifica se o CPF fornecido já existe em outro registro
+ 
     $existingCpf = Formulario::where('cpf', $request->input('cpf'))->where('id', '<>', $id)->first();
     if ($existingCpf) {
         return response()->json(['errors' => ['cpf' => 'Este CPF já está cadastrado.']], 422);
@@ -103,13 +103,13 @@ public function update(Request $request, string $id)
         return response()->json(['errors' => ['email' => 'Este e-mail já está cadastrado.']], 422);
     }
 
-    // Realiza a validação, incluindo a regra de CPF
+   
     $validator = Validator::make($request->all(), [
         'cpf' => [
             'required',
             new Cpf(),
         ],
-        // Adicione outras regras de validação conforme necessário
+      
     ], $this->messages);
 
     if ($validator->fails()) {
