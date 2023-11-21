@@ -30,7 +30,7 @@ O sistema incorpora validações detalhadas para garantir a qualidade dos dados:
 1. Clone o repositório:
 
    ```bash
-   git clone https://github.com/seu-usuario/nome-do-repositorio.git
+   git clone https://github.com/RobervanSouza/ip4y.git
    cd nome-do-repositorio
 2. Instale as dependências do Laravel:
      ```bash
@@ -48,5 +48,5 @@ O sistema incorpora validações detalhadas para garantir a qualidade dos dados:
    php artisan migrate
 
 6.Inicie o servidor local:
-    ```bash
+     ```bash
     php artisan serve
