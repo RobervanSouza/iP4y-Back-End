@@ -33,16 +33,20 @@ O sistema incorpora validações detalhadas para garantir a qualidade dos dados:
    git clone https://github.com/seu-usuario/nome-do-repositorio.git
    cd nome-do-repositorio
 2. Instale as dependências do Laravel:
-
+     ```bash
    composer install
 
 3. Copie o arquivo de ambiente:
+
+    ```bash
     cp .env.example .env
 
 4. Configure o arquivo .env com as informações do banco de dados.
 
 5. Execute as migrações do banco de dados:
+    ```bash
    php artisan migrate
 
 6.Inicie o servidor local:
-  php artisan serve
+   ```bash
+    php artisan serve
