@@ -51,7 +51,7 @@ O sistema incorpora validações detalhadas para garantir a qualidade dos dados:
     ```bash
    php artisan migrate
 
-7.Inicie o servidor local:
+7. Inicie o servidor local:
 
     ```bash
     php artisan serve
