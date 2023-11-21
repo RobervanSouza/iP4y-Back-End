@@ -31,22 +31,27 @@ O sistema incorpora validações detalhadas para garantir a qualidade dos dados:
 
    ```bash
    git clone https://github.com/RobervanSouza/ip4y.git
+
+2. Navegue até o diretório do projeto:
+   ```bash
    cd nome-do-repositorio
-2. Instale as dependências do Laravel:
+
+3. Instale as dependências do Laravel:
      ```bash
    composer install
 
-3. Copie o arquivo de ambiente:
+4. Copie o arquivo de ambiente:
 
     ```bash
     cp .env.example .env
 
-4. Configure o arquivo .env com as informações do banco de dados.
+5. Configure o arquivo .env com as informações do banco de dados.
 
-5. Execute as migrações do banco de dados:
+6. Execute as migrações do banco de dados:
     ```bash
    php artisan migrate
 
-6.Inicie o servidor local:
-     ```bash
+7.Inicie o servidor local:
+
+    ```bash
     php artisan serve
