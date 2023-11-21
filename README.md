@@ -48,5 +48,5 @@ O sistema incorpora validações detalhadas para garantir a qualidade dos dados:
    php artisan migrate
 
 6.Inicie o servidor local:
-   ```bash
+    ```bash
     php artisan serve
